@@ -1,0 +1,18 @@
+PROGRAM MODINPLACE
+    IMPLICIT NONE
+    INTEGER :: A=2, B=3
+
+    PRINT *, 'A = ', A,'B = ', B
+    PRINT *, 'CALLING ADD SUBROUTINE'
+    call add(A,B)
+    PRINT *, 'A = ', A,'B = ', B
+    
+    CONTAINS
+
+    SUBROUTINE ADD(A,B)
+        INTEGER, INTENT(IN) :: B
+        INTEGER, INTENT(INOUT) :: A
+        A = A+B
+    END SUBROUTINE ADD
+
+END PROGRAM MODINPLACE
