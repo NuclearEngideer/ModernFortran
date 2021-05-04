@@ -1,0 +1,31 @@
+language: none
+fast_finish: true
+
+os:
+  - linux
+
+env: FC=gfortran-7
+
+dist: trusty
+group: edge
+
+notifications:
+  email: false
+
+git:
+  depth: 3
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gfortran-7
+
+install:
+    - make
+
+script:
+    - ./stock_gain
+    - ./stock_volatility
+    - ./stock_crossover
