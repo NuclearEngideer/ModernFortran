@@ -7,6 +7,8 @@ MODULE MOD_DIFF
     ! Import the standards for INT32 and REAL32 from this module
     USE ISO_FORTRAN_ENV, ONLY: INT32, REAL32
     IMPLICIT NONE
+    PRIVATE
+    PUBLIC :: DIFF_CENTERED
 
 CONTAINS
     
@@ -24,5 +26,16 @@ CONTAINS
         DX(1)=X(1)-X(IM)
         DX(2:IM) = X(2:IM) - X(1:IM-1)
     END FUNCTION DIFF    
+    
+    PURE FUNCTION DIFF_CENTERED(X) RESULT(DX)
+        REAL(REAL32), INTENT(IN) :: X(:)
+        REAL(REAL32) :: DX(SIZE(X))
+        INTEGER(INT32) :: IM
+        IM = SIZE(X)
+        DX(1) = X(2) - X(IM)
+        DX(IM) = X(1) - X(IM-1)
+        DX(2:IM-1) = X(3:IM) - X(1:IM-2)
+        DX = 0.5*DX
+    END FUNCTION DIFF_CENTERED
 
 END MODULE MOD_DIFF
