@@ -1,36 +1,37 @@
 PROGRAM STONKS_GAIN
+    
+    USE ARRAYOPS
+    USE CH05MISC
 
-    USE MOD_ARRAYS, ONLY: REVERSE
-    USE MOD_IO, ONLY: READ_STOCK
 
     IMPLICIT NONE
-    
+   
+
     ! note, character(len=4) is the same as character(4). 
     ! Character is character(1) (single character)
     CHARACTER(LEN=4), ALLOCATABLE :: SYMBOLS(:)
     CHARACTER(LEN=:), ALLOCATABLE :: TIME(:)
-    REAL, ALLOCATABLE :: OPEN(:), HIGH(:), LOW(:),&
-                         CLOSE(:), ADJCLOSE(:), VOLUME(:)
-    INTEGER :: N
+    REAL, ALLOCATABLE :: OPEN(:), HIGH(:), LOW(:),  CLOSE(:), ADJCLOSE(:), VOLUME(:)
+    INTEGER :: I, IM, N
     REAL :: GAIN
 
-    SYMBOLS = ['APPL','AMZN','CRAY','CSCO','HPQ ',&
-                'IBM ', 'INTC', 'MSFT', 'NVDA', 'ORCL']
+    SYMBOLS = ['AAPL', 'AMZN', 'CRAY', 'CSCO', 'HPQ ',&
+               'IBM ', 'INTC', 'MSFT', 'NVDA', 'ORCL']
 
     DO N=1, SIZE(SYMBOLS)
-        CALL READ_STOCK('DATA/' // TRIM(SYMBOLS(N) // '.CSV',&
-                        TIME, OPEN, HIGH, LOW, CLOSE, ADJCLOSE, VOLUME)
+
+        CALL READ_STOCK('stock-prices-master/data/' // TRIM(SYMBOLS(N)) // '.csv', TIME,&
+          OPEN, HIGH, LOW, CLOSE, ADJCLOSE, VOLUME)
 
         ADJCLOSE = REVERSE(ADJCLOSE)
         GAIN = (ADJCLOSE(SIZE(ADJCLOSE)) - ADJCLOSE(1))
-
         IF (N==1) THEN
             PRINT *, TIME(SIZE(TIME)) // ' THROUGH ' // TIME(1)
             PRINT *, 'SYMBOL, GAIN (USD), RELATIVE GAIN (%)'
             PRINT *, '-------------------------------------'
         ENDIF
 
-        PRINT *, SYMBOLS(N), GAIN, & NINT(GAIN / ADJCLOSE(1) * 100)
+        PRINT *, SYMBOLS(N), GAIN, NINT(GAIN / ADJCLOSE(1) * 100)
 
     ENDDO
 
