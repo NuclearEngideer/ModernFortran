@@ -3,7 +3,8 @@ MODULE ARRAYOPS
     IMPLICIT NONE
     
     PRIVATE
-    PUBLIC :: AVERAGE, ALLOC, FREE, REVERSE, STD, movingaverage, movingstd
+    PUBLIC :: AVERAGE, ALLOC, FREE, REVERSE, STD, movingaverage, movingstd,&
+              crosspos, crossneg
 
     CONTAINS
      
@@ -63,5 +64,33 @@ MODULE ARRAYOPS
             res(i)=std(x(i1:i))
         end do
     end function movingSTD
+    
+    pure function crosspos(x,w) result(res)
+        real, intent(in) :: x(:)
+        integer, intent(in) :: w
+        integer, allocatable :: res(:)
+        real, allocatable :: xavg(:)
+        logical, allocatable :: greater(:), smaller(:)
+        integer :: i
+        res = [(i,i=2,size(x))]
+        xavg=movingaverage(x,w)
+        greater = x > xavg
+        smaller = x < xavg
+        res = pack(res, greater(2:) .and. smaller(:size(x)-1))
+    end function crosspos
+
+    pure function crossneg(x,w) result(res)
+        real, intent(in) :: x(:)
+        integer, intent(in) :: w
+        integer, allocatable :: res(:)
+        real, allocatable :: xavg(:)
+        logical, allocatable :: greater(:), smaller(:)
+        integer :: i
+        res = [(i,i=2,size(x))]
+        xavg=movingaverage(x,w)
+        greater = x > xavg
+        smaller = x < xavg
+        res = pack(res, smaller(2:) .and. greater(:size(x)-1))
+    end function crossneg
 
 END MODULE
