@@ -1,0 +1,4 @@
+Here is an example of the quick notes app
+it loops continuously over user input
+until it is cancelled with the ^C input
+haha so appending works
