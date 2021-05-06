@@ -3,7 +3,7 @@ MODULE ARRAYOPS
     IMPLICIT NONE
     
     PRIVATE
-    PUBLIC :: AVERAGE, ALLOC, FREE, REVERSE, STD
+    PUBLIC :: AVERAGE, ALLOC, FREE, REVERSE, STD, movingaverage, movingstd
 
     CONTAINS
      
@@ -52,5 +52,16 @@ MODULE ARRAYOPS
             res(i)=average(x(j:i))
         enddo
     end function movingAverage
+
+    pure function movingSTD(x, w) result(res)
+        real, intent(in) :: x(:)
+        integer, intent(in) :: w
+        real :: res(size(x))
+        integer :: i, i1
+        do i=1, size(x)
+            i1=max(i-w,1)
+            res(i)=std(x(i1:i))
+        end do
+    end function movingSTD
 
 END MODULE

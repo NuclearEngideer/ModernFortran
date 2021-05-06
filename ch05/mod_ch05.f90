@@ -6,7 +6,7 @@ MODULE CH05MISC
 
     IMPLICIT NONE
     PRIVATE
-    PUBLIC :: READ_STOCK
+    PUBLIC :: READ_STOCK, write_stock
 
     CONTAINS
 
@@ -53,5 +53,17 @@ MODULE CH05MISC
         1 CONTINUE
         CLOSE(UNIT=FILEUNIT)
     END FUNCTION NUM_RECORDS
+
+    subroutine write_stock(filename, time, price, mvavg, mvstd)
+        character(*), intent(in) :: filename
+        character(:), allocatable, intent(in) :: time(:)
+        real, intent(in) :: price(:), mvavg(:), mvstd(:)
+        integer :: fileunit, n
+        open(newunit=fileunit, file=filename)
+        do n=1, size(time)
+            write(fileunit, fmt=*) time(n), price(n), mvavg(n), mvstd(n)
+        end do
+        close(fileunit)
+    end subroutine write_Stock
 
 END MODULE
