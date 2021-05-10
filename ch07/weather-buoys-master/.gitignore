@@ -1,0 +1,8 @@
+build/
+
+*.o
+*.mod
+weather_stats
+weather_parallel
+venv
+*.pyc
