@@ -17,13 +17,13 @@ program weather_stats_serial
     allocate(max_wind(size(ids)),mean_wind(size(ids)))
 
     do i=1, size(ids)
-        call read_buoy('weather-buoys-master/data/buoy_' // ids(i) // '.csv',&
+        call read_buoy('data/buoy_' // ids(i) // '.csv',&
                         time, wind_speed)
         wind_speed=denan(wind_speed)
         max_wind(i)=maxval(wind_speed)
         mean_wind(i) = mean(wind_speed)
     enddo
-
+    
     print *, 'maximum wind speed measured is ',&
               maxval(max_wind), 'at station ', ids(maxloc(max_wind))
     print *, 'highest mean wind speed is ',&
