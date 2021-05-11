@@ -1,0 +1,5 @@
+ Image            1  has value            1
+ Image            1  sending new value to 2nd image..
+ Image            2  now has value            2
+ Image            2  sending new value to image 1.
+ Image            2  sees that image 1 now has value            4

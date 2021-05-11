@@ -11,6 +11,16 @@ program weather_stats_serial
     real, allocatable :: wind_speed(:)
     real, allocatable :: max_wind(:), mean_wind(:)
     integer :: i, is, ie, indices(2)
+    
+    ! the bracket is a codimension attribute
+    ! real, codimension[*] :: a, or real :: a[*]
+    ! creates a scalar coarray created on every image
+    ! Note: coarray is not necessarily an array 
+    !       the one below (gather) is, though
+    ! when a coarray is allocated, the [] value should be * because
+    ! size of coarray is not known at compile time
+    ! deallocate deallocates on all images
+    ! allocate and deallocate triggers synchronization (like sync all)
     real, allocatable :: gather(:)[:]
 
     real :: min_mean_wind, max_mean_wind, max_max_wind
@@ -36,6 +46,7 @@ program weather_stats_serial
     
     allocate(gather(size(ids))[*])
 
+    ! all images write to the instance of gather on image 1 (i think)
     gather(is:ie)[1] = max_wind
     sync all
     if (this_image()==1) then
