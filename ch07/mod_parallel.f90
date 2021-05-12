@@ -9,17 +9,22 @@ module mod_parallel
     
     pure function tile_neighbors()
         integer :: tile_neighbors(2)
-        if (this_image() == 1) then
-            tile_neighbors(1)=num_images()
-            tile_neighbors(2)=this_image()+1
-        else if (this_image() == num_images()) then
-            tile_neighbors(1)=this_image()-1
-            tile_neighbors(2)=1
+        if (num_images() > 1) then
+            if (this_image() == 1) then
+                tile_neighbors(1)=num_images()
+                tile_neighbors(2)=this_image()+1
+            elseif (this_image() == num_images()) then
+                tile_neighbors(1)=this_image()-1
+                tile_neighbors(2)=1
+            else
+                tile_neighbors(1)=this_image()-1
+                tile_neighbors(2)=this_image()+1
+            endif
         else
-            tile_neighbors(1)==this_image()-1
-            tile_neighbors(2)==this_image()+1
+            tile_neighbors(1)=1
+            tile_neighbors(2)=1
         endif
-    end function tile_neighbors()
+    end function tile_neighbors
 
     pure function tile_indices(x)
         integer, intent(in) :: x
