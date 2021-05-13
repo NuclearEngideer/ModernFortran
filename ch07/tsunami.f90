@@ -83,7 +83,9 @@ PROGRAM TSUNAMI
     hmean=10 ! initializes height array to 10
     !Done w/ initial gaussian water height
 
-    print *, 0, h  
+    gather(is:ie)[1] = h(ils:ile)
+    sync all
+    if (this_image() == 1) print *, 0, gather
 
     ! iterate water solution forward in time
     time_loop: do n=1, num_time_steps

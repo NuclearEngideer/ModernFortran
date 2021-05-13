@@ -1,5 +1,6 @@
 """
 plot_water_height.py
+
 Plots the water elevation profile at one time step.
 """
 import argparse
@@ -22,8 +23,8 @@ matplotlib.rcParams.update({'font.size': 16})
 data = [line.rstrip().split() for line in open(input_file).readlines()]
 
 time = [float(line[0]) for line in data]
-h = np.array([[float(x) for x in line[1:]] for line in data], dtype=object) 
-x = np.arange(1, h.shape[0]+1)
+h = np.array([[float(x) for x in line[1:]] for line in data]) 
+x = np.arange(1, h.shape[1]+1)
 
 fig = plt.figure(figsize=(8, 3))
 ax = fig.add_axes((0.12, 0.2, 0.8, 0.7))
@@ -38,5 +39,5 @@ plt.grid()
 plt.xlabel('Distance [m]')
 plt.ylabel('Water elevation [m]')
 plt.title(r'Water elevation [m], time step ' + str(time_step))
-plt.savefig('water_height_' + '%4.4i' % time_step + '.png')
+plt.savefig('water_height_' + '0%4.4i' % time_step + '.png')
 plt.close(fig)

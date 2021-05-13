@@ -32,8 +32,7 @@ CONTAINS
         REAL(REAL32) :: DX(SIZE(X))
         INTEGER(INT32) :: IM
         IM = SIZE(X)
-        DX(1) = X(2) - X(IM)
-        DX(IM) = X(1) - X(IM-1)
+        dx = 0
         DX(2:IM-1) = X(3:IM) - X(1:IM-2)
         DX = 0.5*DX
     END FUNCTION DIFF_CENTERED
