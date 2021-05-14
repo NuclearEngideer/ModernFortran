@@ -8,8 +8,12 @@ module mod_field
         real(real32), allocatable :: data(:,:)
     end type Field
 
+    interface Field
+        module procedure :: field_constructor
+    end interface Field
+    
     contains
-
+    
     type(Field) function field_constrcutor(name, dims) result(res)
         character(*), intent(in) :: name
         integer(int32), intent(in) :: dims(2)
